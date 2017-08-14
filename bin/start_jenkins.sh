@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Note, this script assumes the jenkins war lives in the root directory
 
 bin=`dirname $0`
 bin=`cd "$bin" && pwd`
