@@ -9,7 +9,7 @@ pipeline {
         stage('Test') {
           agent { docker 'qnib/pytest' }
           steps {
-            dir ('test-reports')
+            sh 'mkdir -p test-reports'
             sh 'nosetests -s --with-xunit --xunit-fil=test-reports/results.xml sources/test_thing.py'
           }
         }
