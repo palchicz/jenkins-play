@@ -1,3 +1,5 @@
+#!groovy
+
 pipeline {
     agent { docker 'qnib/pytest' }
     stages {
@@ -11,9 +13,9 @@ pipeline {
             sh 'mkdir -p test-reports'
             sh 'nosetests -s --with-xunit --xunit-fil=test-reports/results.xml sources/test_thing.py'
           }
-        }
-        post {
-          always { junit 'test-reports/results.xml' }
+          post {
+            always { junit 'test-reports/results.xml' }
+          }
         }
     }
 }
