@@ -8,6 +8,12 @@ pipeline {
                 sh 'python --version'
             }
         }
+        stage('Static Analysis') {
+          steps {
+            sh 'pylint --disable=W1202 --output-format=parseable --reports=no module > pylint.log || echo "pylint exited with $?")'
+            sh 'cat render/pylint.log'
+          }
+        }
         stage('Test') {
           steps {
             sh 'mkdir -p test-reports'
