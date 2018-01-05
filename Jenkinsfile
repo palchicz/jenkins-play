@@ -12,5 +12,8 @@ pipeline {
             sh 'nosetests -s --with-xunit --xunit-fil=test-reports/results.xml sources/test_thing.py'
           }
         }
+        post {
+          always { junit 'test-reports/results.xml' }
+        }
     }
 }
