@@ -1,5 +1,5 @@
 pipeline {
-    agent { docker 'python:3.5.1' }
+    agent { docker 'qnib/pytest' }
     stages {
         stage('Build') {
             steps {
@@ -7,7 +7,6 @@ pipeline {
             }
         }
         stage('Test') {
-          agent { docker 'qnib/pytest' }
           steps {
             sh 'mkdir -p test-reports'
             sh 'nosetests -s --with-xunit --xunit-fil=test-reports/results.xml sources/test_thing.py'
