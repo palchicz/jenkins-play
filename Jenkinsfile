@@ -18,6 +18,7 @@ pipeline {
                                               parserName: 'PYLint',
                                               pattern   : 'pylint.log'
                                             ]],
+              failedNewAll               : '0',
           ])
           }
         }
