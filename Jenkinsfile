@@ -12,6 +12,13 @@ pipeline {
           steps {
             sh 'pylint --disable=W1202 --output-format=parseable --reports=no sources/ > pylint.log || echo "pylint exited with $?"'
             sh 'cat pylint.log'
+            step([
+              $class                     : 'WarningsPublisher',
+              parserConfigurations       : [[
+                                              parserName: 'PYLint',
+                                              pattern   : 'pylint.log'
+                                            ]],
+          ])
           }
         }
         stage('Test') {
