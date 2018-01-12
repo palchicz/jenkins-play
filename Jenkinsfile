@@ -18,7 +18,8 @@ pipeline {
                                               parserName: 'PYLint',
                                               pattern   : 'pylint.log'
                                             ]],
-              failedNewAll               : '0',
+              failedNewAll               : '0',  // This means that if there are any new violations compared to last stable, fail
+              usePreviousBuildAsReference: true
           ])
           }
         }
