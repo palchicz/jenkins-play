@@ -1,5 +1,9 @@
 #!groovy
 
+def get_static_analysis_warnings_count() {
+    return sh(script: "tail -n 1 flake8-output.txt", returnStdout: true).trim()
+}
+
 pipeline {
     agent { docker 'palchick/pytest' }
     stages {
@@ -12,6 +16,7 @@ pipeline {
           steps {
             sh 'flake8 --exit-zero --count sources > flake8-output.txt || echo "flake8 exited with $?"'
             sh 'cat flake8-output.txt'
+
             script {
               FAILURE_THRESHOLD = sh(script: "tail -n 1 .static_analysis_threshold.txt", returnStdout: true).trim()
               warnings parserConfigurations: [[parserName: 'Pep8', pattern: 'flake8-output.txt']], failedTotalAll: "${FAILURE_THRESHOLD}"
@@ -30,6 +35,21 @@ pipeline {
           }
           post {
             always { junit 'test-reports/results.xml' }
+          }
+        }
+        stage('Commit') {
+          when {
+            expression {
+              return env.JOB_NAME.contains('master')
+            }
+          }
+          steps {
+            sh("git checkout master")
+            sh('git fetch')
+            sh("git reset --hard origin/master")
+            error_count = get_static_analysis_warnings_count()
+            sh("tail -n 1 flake8-output.txt | sed -i $c${error_count} .static_analysis_threshold.txt"
+
           }
         }
     }
