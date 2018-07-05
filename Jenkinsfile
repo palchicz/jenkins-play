@@ -43,11 +43,11 @@ pipeline {
               return env.JOB_NAME.contains('master')
             }
           }
+          error_count = get_static_analysis_warnings_count()
           steps {
             sh("git checkout master")
             sh('git fetch')
             sh("git reset --hard origin/master")
-            error_count = get_static_analysis_warnings_count()
             sh("tail -n 1 flake8-output.txt | sed -i $c${error_count} .static_analysis_threshold.txt")
 
           }
