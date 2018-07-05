@@ -50,7 +50,7 @@ pipeline {
             git 'file:////home/palchicz/play/jenkins_play'
             sh("tail -n 1 flake8-output.txt | sed -i '\$c${warnings_count}' .static_analysis_threshold.txt")
             sh("git add .static_analysis_threshold.txt")
-            sh("git commit -m 'Update warnings threshold to ${warnings_count}")
+            sh("git commit -m 'Update warnings threshold to ${warnings_count}'")
 
           }
         }
