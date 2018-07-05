@@ -14,7 +14,7 @@ pipeline {
             sh 'cat flake8-output.txt'
             script {
               FAILURE_THRESHOLD = '2'
-              warnings parserConfigurations: [[parserName: 'Pep8', pattern: 'flake8-output.txt']], failedTotalAll: ${FAILURE_THRESHOLD}
+              warnings parserConfigurations: [[parserName: 'Pep8', pattern: 'flake8-output.txt']], failedTotalAll: "${FAILURE_THRESHOLD}"
             }
           }
           post {
