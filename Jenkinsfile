@@ -13,7 +13,7 @@ pipeline {
             sh 'flake8 --exit-zero sources > flake8-output.txt || echo "flake8 exited with $?"'
             sh 'cat flake8-output.txt'
             script {
-              FAILURE_THRESHOLD = '2'
+              FAILURE_THRESHOLD = sh(script: "tail -n 1 .static_analysis_threshold.txt", returnStdout: true).trim()
               warnings parserConfigurations: [[parserName: 'Pep8', pattern: 'flake8-output.txt']], failedTotalAll: "${FAILURE_THRESHOLD}"
             }
           }
