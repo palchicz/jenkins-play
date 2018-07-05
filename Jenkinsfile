@@ -11,8 +11,8 @@ pipeline {
         stage('Static Analysis') {
           steps {
             sh 'flake8 --exit-zero sources > flake8-output.txt || echo "flake8 exited with $?"'
-            sh 'cat flake8-output.log'
-            warnings parserConfigurations: [[parserName: 'Pep8', pattern: 'flake8-output.log']], failedNewAll: '0', useStableBuildAsReference: true, useDeltaValues: true
+            sh 'cat flake8-output.txt'
+            warnings parserConfigurations: [[parserName: 'Pep8', pattern: 'flake8-output.txt']], failedNewAll: '0', useStableBuildAsReference: true, useDeltaValues: true
           }
           post {
               failure {
