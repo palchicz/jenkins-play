@@ -12,8 +12,10 @@ pipeline {
           steps {
             sh 'flake8 --exit-zero sources > flake8-output.txt || echo "flake8 exited with $?"'
             sh 'cat flake8-output.txt'
-            def FAILURE_THRESHOLD = '2'
-            warnings parserConfigurations: [[parserName: 'Pep8', pattern: 'flake8-output.txt']], failedTotalAll: $FAILURE_THRESHOLD
+            script {
+              FAILURE_THRESHOLD = '2'
+              warnings parserConfigurations: [[parserName: 'Pep8', pattern: 'flake8-output.txt']], failedTotalAll: $FAILURE_THRESHOLD
+            }
           }
           post {
               failure {
