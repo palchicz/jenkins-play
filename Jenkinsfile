@@ -10,9 +10,9 @@ pipeline {
         }
         stage('Static Analysis') {
           steps {
-            sh 'pylint --disable=W1202 --output-format=parseable --reports=no sources/ > pylint.log || echo "pylint exited with $?"'
-            sh 'cat pylint.log'
-            warnings parserConfigurations: [[parserName: 'pYLint', pattern: 'pylint.log']], failedNewAll: '0', useStableBuildAsReference: true, useDeltaValues: true
+            sh 'flake8 --exit-zero sources > flake8-output.txt || echo "flake8 exited with $?"'
+            sh 'cat flake8-output.log'
+            warnings parserConfigurations: [[parserName: 'Pep8', pattern: 'flake8-output.log']], failedNewAll: '0', useStableBuildAsReference: true, useDeltaValues: true
           }
           post {
               failure {
