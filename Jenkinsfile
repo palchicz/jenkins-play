@@ -1,7 +1,7 @@
 #!groovy
 
 pipeline {
-    agent { docker 'qnib/pytest' }
+    agent { docker 'palchick/pytest' }
     stages {
         stage('Build') {
             steps {
