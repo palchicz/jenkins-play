@@ -10,7 +10,7 @@ pipeline {
         }
         stage('Static Analysis') {
           steps {
-            sh 'flake8 --exit-zero sources > flake8-output.txt || echo "flake8 exited with $?"'
+            sh 'flake8 --exit-zero --count sources > flake8-output.txt || echo "flake8 exited with $?"'
             sh 'cat flake8-output.txt'
             script {
               FAILURE_THRESHOLD = sh(script: "tail -n 1 .static_analysis_threshold.txt", returnStdout: true).trim()
