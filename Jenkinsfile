@@ -43,7 +43,7 @@ pipeline {
               return env.JOB_NAME.contains('master')
             }
           }
-          error_count = get_static_analysis_warnings_count()
+          def error_count = get_static_analysis_warnings_count()
           steps {
             sh("git checkout master")
             sh('git fetch')
