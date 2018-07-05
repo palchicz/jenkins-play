@@ -47,13 +47,11 @@ pipeline {
             warnings_count = get_static_analysis_warnings_count()
           }
           steps {
-            sh('git fetch')
             sh("git checkout master")
             sh("git reset --hard origin/master")
             sh("tail -n 1 flake8-output.txt | sed -i $c${warnings_count} .static_analysis_threshold.txt")
             sh("git add .static_analysis_threshold.txt")
             sh("git commit -m 'Update warnings threshold to ${warnings_count}")
-            sh("git push origin master")
 
           }
         }
