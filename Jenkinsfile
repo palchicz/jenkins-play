@@ -13,18 +13,17 @@ pipeline {
             }
         }
         stage('Static Analysis') {
+          environment {
+            FAILURE_THRESHOLD = sh(script: "tail -n 1 .static_analysis_threshold.txt", returnStdout: true).trim()
+          }
           steps {
             sh 'flake8 --exit-zero --count sources > flake8-output.txt || echo "flake8 exited with $?"'
             sh 'cat flake8-output.txt'
-
-            script {
-              FAILURE_THRESHOLD = sh(script: "tail -n 1 .static_analysis_threshold.txt", returnStdout: true).trim()
-              warnings parserConfigurations: [[parserName: 'Pep8', pattern: 'flake8-output.txt']], failedTotalAll: "${FAILURE_THRESHOLD}"
-            }
+            warnings parserConfigurations: [[parserName: 'Pep8', pattern: 'flake8-output.txt']], failedTotalAll: "${FAILURE_THRESHOLD}"
           }
           post {
               failure {
-                error("Failed Static Analysis. Check warnings for more info.")
+                error("Failed Static Analysis. The number of warnings exceeds the failure threshiold of ${FAILURE_THRESHOLD}. Check flake8 warnings for more info.")
               }
           }
         }
